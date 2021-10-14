@@ -18,9 +18,9 @@ fullNameOverride: ""
 replicaCount: 1
 containerPort: 8070
 image:
-  repository: apolloconfig/apollo-portal
+  repository: cyvadra/apollo-portal
   tag: ""
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 imagePullSecrets: []
 service:
   fullNameOverride: ""

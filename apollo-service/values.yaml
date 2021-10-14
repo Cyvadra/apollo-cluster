@@ -16,41 +16,13 @@
 configetc:
   consul_host: "127.0.0.1"
   consul_port: 8500
-  jenkinsVar:
-  - name: ENV_ENVIRONMENT_TARGET
-    valueFrom:
-      configMapKeyRef:
-        name: system-environment
-        key: environment.target
-  - name: ENV_CONSUL_HOST
-    valueFrom:
-      configMapKeyRef:
-        name: system-environment
-        key: environment.consul_host
-  - name: ENV_CONSUL_PORT
-    valueFrom:
-      configMapKeyRef:
-        name: system-environment
-        key: environment.consul_port
-  - name: ENV_CLUSTER_NAMESPACE
-    valueFrom:
-      fieldRef:
-        fieldPath: metadata.namespace
-  - name: MYSQL_ROOT_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: mysql-password-secret
-        key: rootpassword
 
 configdb:
   name: apollo-configdb
-  # apolloconfigdb host
   host: ""
   port: 3306
   dbName: ApolloConfigDB
-  # apolloconfigdb user name
   userName: ""
-  # apolloconfigdb password
   password: ""
   connectionStringProperties: characterEncoding=utf8
   service:
@@ -66,9 +38,9 @@ configService:
   replicaCount: 2
   containerPort: 8080
   image:
-    repository: apolloconfig/apollo-configservice
+    repository: cyvadra/apollo-configservice
     tag: ""
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   imagePullSecrets: []
   service:
     fullNameOverride: ""
@@ -111,9 +83,9 @@ adminService:
   replicaCount: 2
   containerPort: 8090
   image:
-    repository: apolloconfig/apollo-adminservice
+    repository: cyvadra/apollo-adminservice
     tag: ""
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   imagePullSecrets: []
   service:
     fullNameOverride: ""

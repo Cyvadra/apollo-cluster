@@ -23,8 +23,8 @@ metadata:
 data:
   application-github.properties: |
     spring.datasource.url = jdbc:mysql://{{include "apollo.configdb.serviceName" .}}:{{include "apollo.configdb.servicePort" .}}/{{ .Values.configdb.dbName }}{{ if .Values.configdb.connectionStringProperties }}?{{ .Values.configdb.connectionStringProperties }}{{ end }}
-    spring.datasource.username = {{ required "configdb.userName is required!" .Values.configdb.userName }}
-    spring.datasource.password = {{ required "configdb.password is required!" .Values.configetc.jenkinsVar.MYSQL_ROOT_PASSWORD }}
+    spring.datasource.username = ""
+    spring.datasource.password = ""
     {{- if .Values.adminService.config.contextPath }}
     server.servlet.context-path = {{ .Values.adminService.config.contextPath }}
     {{- end }}
@@ -73,12 +73,31 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: {{ .Values.adminService.config.profiles | quote }}
-          {{- range $key, $value := .Values.adminService.env }}
+            - name: ENV_ENVIRONMENT_TARGET
+              valueFrom:
+                configMapKeyRef:
+                  name: system-environment
+                  key: environment.target
             - name: ENV_CONSUL_HOST
               valueFrom:
                 configMapKeyRef:
                   name: system-environment
                   key: environment.consul_host
+            - name: ENV_CONSUL_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: system-environment
+                  key: environment.consul_port
+            - name: ENV_CLUSTER_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-password-secret
+                  key: rootpassword
+          {{- range $key, $value := .Values.adminService.env }}
             - name: {{ $key }}
               value: {{ $value }}
           {{- end }}
