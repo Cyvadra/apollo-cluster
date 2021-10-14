@@ -29,7 +29,6 @@ pipeline {
         sh "echo \"  host: $MYSQL_HOST\n\" >> ./apollo-service.values.yaml"
         sh "echo \"  dbName: ApolloConfigDB\n\" >> ./apollo-service.values.yaml"
         sh "echo \"  userName: root\n\" >> ./apollo-service.values.yaml"
-        sh "echo \"  password: $MYSQL_ROOT_PASSWORD\n\" >> ./apollo-service.values.yaml"
         sh "echo \"  connectionStringProperties: characterEncoding=utf8&useSSL=false\n\" >> ./apollo-service.values.yaml"
         sh "echo \"  service:\n\">> ./apollo-service.values.yaml"
         sh "echo \"    enabled: false\">> ./apollo-service.values.yaml"
@@ -47,18 +46,16 @@ pipeline {
 
     stage('Install apollo-portal') {
       steps {
-        sh 'helm repo add apollo https://www.apolloconfig.com/charts'
         sh "helm install $SVC_NAME \
     --set configdb.host=$MYSQL_HOST \
     --set configdb.userName=root \
-    --set configdb.password=$MYSQL_ROOT_PASSWORD \
     --set configdb.service.enabled=false \
-    --set config.envs=\"dev\,pro\" \
+    --set config.envs=\"dev\\,pro\" \
     --set config.metaServers.dev=http://$SVC_NAME-apollo-configservice:8080 \
     --set config.metaServers.pro=http://$SVC_NAME-apollo-configservice:8080 \
     --set replicaCount=1 \
     -n $K8S_NAMESPACE \
-    apollo/apollo-portal"
+    ./apollo-portal"
       }
     }
 
