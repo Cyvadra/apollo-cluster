@@ -26,7 +26,7 @@ pipeline {
     stage('Helm install apollo-service') {
       steps {
         sh 'echo "configdb:\n" > ./apollo-service.values.yaml'
-        sh "echo \"  host: \"mysql.kube-system.svc.cluster.local\"\n\" >> ./apollo-service.values.yaml"
+        sh "echo \"  host: \"$MYSQL_HOST\"\n\" >> ./apollo-service.values.yaml"
         sh "echo \"  dbName: ApolloConfigDB\n\" >> ./apollo-service.values.yaml"
         sh "echo \"  connectionStringProperties: characterEncoding=utf8&useSSL=false\n\" >> ./apollo-service.values.yaml"
         sh "echo \"  service:\n\">> ./apollo-service.values.yaml"
@@ -45,7 +45,7 @@ pipeline {
       steps {
         sh "helm uninstall $SVC_NAME-portal -n $K8S_NAMESPACE || true"
         sh "helm install $SVC_NAME-portal \
-    --set configdb.host=\"mysql.kube-system.svc.cluster.local\" \
+    --set configdb.host=\"$MYSQL_HOST\" \
     --set configdb.userName=root \
     --set configdb.password='' \
     --set configdb.service.enabled=false \
