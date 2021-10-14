@@ -45,7 +45,7 @@ pipeline {
         sh "echo \"adminService:\n\" >> ./apollo-service.values.yaml"
         sh "echo \"  replicaCount: $ADM_COPIES\n\" >> ./apollo-service.values.yaml"
         sh "echo \"\n\" >> ./apollo-service.values.yaml"
-        sh "helm install $ENV_AND_SVC_NAME -f ./apollo-service.values.yaml -n kube-system ."
+        sh "helm install $ENV_AND_SVC_NAME -f ./apollo-service.values.yaml -n $K8S_NAMESPACE ."
       }
     }
 
@@ -61,7 +61,7 @@ pipeline {
     --set config.metaServers.dev=http://$ENV_AND_SVC_NAME-apollo-configservice:8080 \
     --set config.metaServers.pro=http://$ENV_AND_SVC_NAME-apollo-configservice:8080 \
     --set replicaCount=1 \
-    -n kube-system \
+    -n $K8S_NAMESPACE \
     apollo/apollo-portal"
       }
     }
