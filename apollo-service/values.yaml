@@ -37,7 +37,7 @@ configService:
   image:
     repository: cyvadra/apollo-configservice
     tag: "latest"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   imagePullSecrets: []
   service:
     fullNameOverride: ""
