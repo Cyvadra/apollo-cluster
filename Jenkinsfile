@@ -67,14 +67,4 @@ pipeline {
     }
 
   }
-  post('Report') {
-    fixed {
-     }
-    success {
-     }
-    failure {
-     }
-    aborted {
-     }
-  }
 }
