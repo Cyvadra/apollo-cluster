@@ -13,9 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-configetc:
-  consul_host: "127.0.0.1"
-  consul_port: 8500
 
 configdb:
   name: apollo-configdb
@@ -39,7 +36,7 @@ configService:
   containerPort: 8080
   image:
     repository: cyvadra/apollo-configservice
-    tag: ""
+    tag: "latest"
     pullPolicy: Always
   imagePullSecrets: []
   service:
@@ -84,7 +81,7 @@ adminService:
   containerPort: 8090
   image:
     repository: cyvadra/apollo-adminservice
-    tag: ""
+    tag: "latest"
     pullPolicy: Always
   imagePullSecrets: []
   service:

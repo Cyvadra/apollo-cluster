@@ -27,8 +27,6 @@ data:
     spring.datasource.password = ""
     apollo.config-service.url = {{ include "apollo.configService.serviceUrl" .}}
     apollo.admin-service.url = {{ include "apollo.adminService.serviceUrl" .}}
-    spring.cloud.consul.host = ""
-    spring.cloud.consul.port = ""
     {{- if .Values.configService.config.contextPath }}
     server.servlet.context-path = {{ .Values.configService.config.contextPath }}
     {{- end }}

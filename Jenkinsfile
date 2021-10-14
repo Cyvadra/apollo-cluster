@@ -33,23 +33,20 @@ pipeline {
         sh "echo \"  connectionStringProperties: characterEncoding=utf8&useSSL=false\n\" >> ./apollo-service.values.yaml"
         sh "echo \"  service:\n\">> ./apollo-service.values.yaml"
         sh "echo \"    enabled: false\">> ./apollo-service.values.yaml"
-        sh "echo \"configetc:\n\" >> ./apollo-service.values.yaml"
-        sh "echo \"  consul_host: $CONSUL_HOST\n\" >> ./apollo-service.values.yaml"
-        sh "echo \"  consul_port: $CONSUL_PORT\n\" >> ./apollo-service.values.yaml"
         sh "echo \"configService:\n\" >> ./apollo-service.values.yaml"
         sh "echo \"  replicaCount: $CFS_COPIES\n\" >> ./apollo-service.values.yaml"
         sh "echo \"adminService:\n\" >> ./apollo-service.values.yaml"
         sh "echo \"  replicaCount: $ADM_COPIES\n\" >> ./apollo-service.values.yaml"
         sh "echo \"\n\" >> ./apollo-service.values.yaml"
-        sh "helm uninstall $SVC_NAME -n $K8S_NAMESPACE || true"
-        sh "helm install $SVC_NAME-apls -f ./apollo-service.values.yaml -n $K8S_NAMESPACE ./apollo-service"
+        sh "helm uninstall $SVC_NAME-svc -n $K8S_NAMESPACE || true"
+        sh "helm install $SVC_NAME-svc -f ./apollo-service.values.yaml -n $K8S_NAMESPACE ./apollo-service"
       }
     }
 
     stage('Install apollo-portal') {
       steps {
-        sh "helm uninstall $SVC_NAME-apla -n $K8S_NAMESPACE || true"
-        sh "helm install $SVC_NAME \
+        sh "helm uninstall $SVC_NAME-portal -n $K8S_NAMESPACE || true"
+        sh "helm install $SVC_NAME-portal \
     --set configdb.host=$MYSQL_HOST \
     --set configdb.userName=root \
     --set configdb.password='' \
