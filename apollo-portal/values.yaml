@@ -19,7 +19,7 @@ replicaCount: 1
 containerPort: 8070
 image:
   repository: apolloconfig/apollo-portal
-  tag: ""
+  tag: "1.9.1"
   pullPolicy: IfNotPresent
 imagePullSecrets: []
 service:
@@ -68,11 +68,9 @@ portaldb:
   # apolloportaldb host
   host: "mysql.kube-system.svc.cluster.local"
   port: 3306
-  dbName: ApolloPortalDB
-  # apolloportaldb user name
-  userName:
-  # apolloportaldb password
-  password:
+  dbName: "ApolloPortalDB"
+  userName: "root"
+  password: ""
   connectionStringProperties: characterEncoding=utf8
   service:
     # whether to create a Service for this host or not

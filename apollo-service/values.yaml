@@ -18,8 +18,8 @@ configdb:
   name: apollo-configdb
   host: "mysql.kube-system.svc.cluster.local"
   port: 3306
-  dbName: ApolloConfigDB
-  userName: ""
+  dbName: "ApolloConfigDB"
+  userName: "root"
   password: ""
   connectionStringProperties: characterEncoding=utf8
   service:
@@ -37,7 +37,7 @@ configService:
   image:
     repository: cyvadra/apollo-configservice
     tag: "latest"
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
   imagePullSecrets: []
   service:
     fullNameOverride: ""
@@ -82,7 +82,7 @@ adminService:
   image:
     repository: cyvadra/apollo-adminservice
     tag: "latest"
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
   imagePullSecrets: []
   service:
     fullNameOverride: ""
