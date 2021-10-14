@@ -25,7 +25,6 @@ pipeline {
 
     stage('Helm install apollo-service') {
       steps {
-        sh 'cd apollo-service'
         sh 'echo "configdb:\n" > ./apollo-service.values.yaml'
         sh "echo \"  host: $MYSQL_HOST\n\" >> ./apollo-service.values.yaml"
         sh "echo \"  dbName: ApolloConfigDB\n\" >> ./apollo-service.values.yaml"
@@ -42,7 +41,7 @@ pipeline {
         sh "echo \"adminService:\n\" >> ./apollo-service.values.yaml"
         sh "echo \"  replicaCount: $ADM_COPIES\n\" >> ./apollo-service.values.yaml"
         sh "echo \"\n\" >> ./apollo-service.values.yaml"
-        sh "helm install $SVC_NAME_PREFIX -f ./apollo-service.values.yaml -n $K8S_NAMESPACE ."
+        sh "helm install $SVC_NAME_PREFIX -f ./apollo-service.values.yaml -n $K8S_NAMESPACE ./apollo-service"
       }
     }
 
