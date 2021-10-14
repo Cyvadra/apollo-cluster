@@ -45,21 +45,21 @@ pipeline {
         sh "echo \"adminService:\n\" >> ./apollo-service.values.yaml"
         sh "echo \"  replicaCount: $ADM_COPIES\n\" >> ./apollo-service.values.yaml"
         sh "echo \"\n\" >> ./apollo-service.values.yaml"
-        sh "helm install $ENV_AND_SVC_NAME -f ./apollo-service.values.yaml -n $K8S_NAMESPACE ."
+        sh "helm install $SVC_NAME_PREFIX -f ./apollo-service.values.yaml -n $K8S_NAMESPACE ."
       }
     }
 
     stage('Install apollo-portal') {
       steps {
         sh 'helm repo add apollo https://www.apolloconfig.com/charts'
-        sh "helm install $ENV_AND_SVC_NAME \
+        sh "helm install $SVC_NAME_PREFIX \
     --set configdb.host=$MYSQL_HOST \
     --set configdb.userName=root \
     --set configdb.password=$MYSQL_ROOT_PASSWORD \
     --set configdb.service.enabled=false \
     --set config.envs=\"dev,pro\" \
-    --set config.metaServers.dev=http://$ENV_AND_SVC_NAME-apollo-configservice:8080 \
-    --set config.metaServers.pro=http://$ENV_AND_SVC_NAME-apollo-configservice:8080 \
+    --set config.metaServers.dev=http://$SVC_NAME_PREFIX-apollo-configservice:8080 \
+    --set config.metaServers.pro=http://$SVC_NAME_PREFIX-apollo-configservice:8080 \
     --set replicaCount=1 \
     -n $K8S_NAMESPACE \
     apollo/apollo-portal"
