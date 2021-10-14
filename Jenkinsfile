@@ -29,6 +29,7 @@ pipeline {
         sh "echo \"  host: $MYSQL_HOST\n\" >> ./apollo-service.values.yaml"
         sh "echo \"  dbName: ApolloConfigDB\n\" >> ./apollo-service.values.yaml"
         sh "echo \"  userName: root\n\" >> ./apollo-service.values.yaml"
+        sh "echo \"  password: \"\"\n\" >> ./apollo-service.values.yaml"
         sh "echo \"  connectionStringProperties: characterEncoding=utf8&useSSL=false\n\" >> ./apollo-service.values.yaml"
         sh "echo \"  service:\n\">> ./apollo-service.values.yaml"
         sh "echo \"    enabled: false\">> ./apollo-service.values.yaml"
@@ -51,6 +52,7 @@ pipeline {
         sh "helm install $SVC_NAME \
     --set configdb.host=$MYSQL_HOST \
     --set configdb.userName=root \
+    --set configdb.password='' \
     --set configdb.service.enabled=false \
     --set config.envs=\"dev\\,pro\" \
     --set config.metaServers.dev=http://$SVC_NAME-apollo-configservice:8080 \
