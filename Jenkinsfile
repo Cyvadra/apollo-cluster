@@ -42,13 +42,13 @@ pipeline {
         sh "echo \"  replicaCount: $ADM_COPIES\n\" >> ./apollo-service.values.yaml"
         sh "echo \"\n\" >> ./apollo-service.values.yaml"
         sh "helm uninstall $SVC_NAME -n $K8S_NAMESPACE || true"
-        sh "helm install $SVC_NAME -f ./apollo-service.values.yaml -n $K8S_NAMESPACE ./apollo-service"
+        sh "helm install $SVC_NAME-apls -f ./apollo-service.values.yaml -n $K8S_NAMESPACE ./apollo-service"
       }
     }
 
     stage('Install apollo-portal') {
       steps {
-        sh "helm uninstall $SVC_NAME -n $K8S_NAMESPACE || true"
+        sh "helm uninstall $SVC_NAME-apla -n $K8S_NAMESPACE || true"
         sh "helm install $SVC_NAME \
     --set configdb.host=$MYSQL_HOST \
     --set configdb.userName=root \
